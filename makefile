@@ -1,11 +1,11 @@
 LIBS = -lGL -lGLEW -lglfw
 CFLAGS = -o build/run
 SRC = $(wildcard ./src/*.cpp)
-CC = g++
+CC = clang++
 
 all:
 	mkdir -p build
 	$(CC) $(SRC) $(CFLAGS) $(LIBS)
 
-run: all
+test: all
 	./build/run
