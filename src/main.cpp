@@ -97,6 +97,12 @@ int main(int argc, char** argv)
     float currentFrame = glfwGetTime();
     float lastFrame = 0.0f;
 
+    float fastest = 1000.0;
+    float slowest = 0.0;
+    float avg = 0.0;
+
+    unsigned long frame_count = 0;
+
     while (!glfwWindowShouldClose(window))
     {
         currentFrame = glfwGetTime();
@@ -113,6 +119,12 @@ int main(int argc, char** argv)
 
         glUniform3fv(cam_pos, 1, (float*)(&pos));
 
+        if (frame_count > 5) {
+            fastest = std::min(fastest, deltaTime);
+            slowest = std::max(slowest, deltaTime);
+            avg = (avg*frame_count + deltaTime) / (frame_count + 1);
+        }
+
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
             pos.z += 10.0 * deltaTime;
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -122,9 +134,15 @@ int main(int argc, char** argv)
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
             pos.x -= 10.0 * deltaTime;
 
+        frame_count++;
+
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, GL_TRUE);
     }
+
+    std::cout << "MAX FPS: " << 1.0 / fastest << std::endl;
+    std::cout << "AVG FPS: " << 1.0 / avg << std::endl;
+    std::cout << "MIN FPS: " << 1.0 / slowest << std::endl;
 
     terminate();
 }

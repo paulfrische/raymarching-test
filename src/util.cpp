@@ -19,6 +19,8 @@ GLFWwindow* setup()
     glewExperimental = GL_TRUE;
     glewInit();
 
+    glfwSwapInterval(0);
+
     return window;
 }
 

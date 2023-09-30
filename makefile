@@ -1,5 +1,5 @@
 LIBS = -lGL -lGLEW -lglfw
-CFLAGS = -o build/run
+CFLAGS = -o build/run -Ofast
 SRC = $(wildcard ./src/*.cpp)
 CC = clang++
 

@@ -10,7 +10,7 @@ const float FOVX = (70.0) / 180 * 3.14159;
 const float FOVY = (40.0) / 180 * 3.14159;
 
 const float EPSILON = 0.1;
-const float STEP_LIMIT = 255;
+const float STEP_LIMIT = 128;
 
 const vec4 SKY_COLOR = vec4(0.4, 0.4, 1.0, 1.0);
 const vec4 GROUND_COLOR = vec4(1.0, 1.0, 1.0, 1.0);
