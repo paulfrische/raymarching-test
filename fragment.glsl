@@ -20,6 +20,9 @@ const float GROUND = -3.0;
 
 const vec4 SPHERE = vec4(0.0, 1.0, 12.0, 4.0);
 
+const float ANTIAAF = 0.0001;
+const bool ANTIAA = false;
+
 float ground_distance(vec3 p) {
     return p.y - GROUND;
 }
@@ -50,7 +53,15 @@ vec4 raymarch(vec3 ray) {
 
 void main()
 {
-    vec3 ray = normalize(vec3(UV.x * 70 / 180, UV.y * 40 / 180, 1.0));
+    if (ANTIAA) {
+        vec3 ray1 = normalize(vec3(UV.x * 70 / 180 - ANTIAAF, UV.y * 40 / 180 - ANTIAAF, 1.0));
+        vec3 ray2 = normalize(vec3(UV.x * 70 / 180 + ANTIAAF, UV.y * 40 / 180 - ANTIAAF, 1.0));
+        vec3 ray3 = normalize(vec3(UV.x * 70 / 180 - ANTIAAF, UV.y * 40 / 180 + ANTIAAF, 1.0));
+        vec3 ray4 = normalize(vec3(UV.x * 70 / 180 + ANTIAAF, UV.y * 40 / 180 + ANTIAAF, 1.0));
 
-    FragColor = raymarch(ray);
+        FragColor = (raymarch(ray1) + raymarch(ray2) + raymarch(ray3) + raymarch(ray4)) / 4.0;
+    } else {
+        vec3 ray = normalize(vec3(UV.x * 70 / 180, UV.y * 40 / 180, 1.0));
+        FragColor = raymarch(ray);
+    }
 }
